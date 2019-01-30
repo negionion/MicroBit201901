@@ -8,9 +8,12 @@ public class Control : MonoBehaviour {
 	static private bool buttonA, buttonB;
 	public GameObject character;
 	public Camera camera;
+	public float moveSpeed = 10.0f;
+
+
 	public Text txtData;
 	static private string txtDebug;
-	public float moveSpeed = 10.0f;
+	
 	
 
 	
@@ -99,5 +102,7 @@ public class Control : MonoBehaviour {
 	{
 		return buttonB;
 	}
+
+
 
 }

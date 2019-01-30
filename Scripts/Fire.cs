@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class Fire : MonoBehaviour {
 	private float timing;
-	public ObjPool objPool;
+	public ObjPool bulletPool;
 	public float fireRate = 0.3f;
 
 	[SerializeField]
@@ -32,8 +32,8 @@ public class Fire : MonoBehaviour {
 		if (!Control.attack() || timing < fireRate || nowValue <= 0)
 			return;
 		timing = 0;		
-		objPool.reuse(gunL.position);
-		objPool.reuse(gunR.position);
+		bulletPool.reuse(gunL.position);
+		bulletPool.reuse(gunR.position);
 		nowValue -= 50;
 	}
 

@@ -89,6 +89,7 @@ public class newblee : MonoBehaviour
                                BluetoothLEHardwareInterface.Log("data: " + s);
                                receiveText(s);
                                txtDebug.text += "reading";
+
 							   //關閉顯示，如要看參數需打開
                                //txtDebug.GetComponent<MeshRenderer>().enabled =  false;
                                //txtReceive.GetComponent<MeshRenderer>().enabled = false;

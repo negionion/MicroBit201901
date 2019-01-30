@@ -9,12 +9,26 @@ public class Bullet : MonoBehaviour {
 	void OnEnable()
 	{
 		iniPos = transform.position;
+
 	}
 
 
 	void Update () {
-		transform.Translate(Vector3.forward * speed * Time.deltaTime, Space.World);
+		transform.Translate(Vector3.forward * speed * Time.deltaTime, Space.Self);
 		if(Vector3.Distance(transform.position, iniPos) > 50)
-			GameObject.Find("bulletPool").GetComponent<ObjPool>().recovery(gameObject);
+			GetComponentInParent<ObjPool>().recovery(gameObject);
+	}
+
+	void OnTriggerEnter(Collider trig)
+	{
+		if (trig.tag == "enemy")
+		{
+			Debug.Log("hit!");
+
+			//test
+			GameObject.Find("boomPool").GetComponent<ObjPool>().reuse(transform.position);
+
+			GetComponentInParent<ObjPool>().recovery(gameObject);
+		}
 	}
 }

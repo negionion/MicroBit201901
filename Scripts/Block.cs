@@ -7,7 +7,7 @@ public class Block : MonoBehaviour {
 	[SerializeField]
 	private GameObject block;
 	[SerializeField]
-	private Collider character;
+	private GameObject fighter;
 	[SerializeField]
 	private Image meter;
 	private int total = 1000, nowValue;
@@ -20,12 +20,12 @@ public class Block : MonoBehaviour {
 	void Update () {
 		if(Control.block() && nowValue > 0)
 		{
-			character.enabled = false;
+			fighter.tag = "attack";
 			block.SetActive(true);
 		}
 		else
 		{
-			character.enabled = true;
+			fighter.tag = "normal";
 			block.SetActive(false);
 		}
 		meter.fillAmount = ((float)nowValue / total);
