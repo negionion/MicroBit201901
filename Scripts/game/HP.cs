@@ -7,37 +7,32 @@ public class HP : MonoBehaviour {
 	[SerializeField]
 	private Image meter;
 
-	private int hp;
+	private int hp = 3;
 
 	[SerializeField]
 	private PauseUI menu;
 	// Use this for initialization
-	void Start () {
-		hp = 3;
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		meter.fillAmount = hp / 3f;
-	}
 
 	public void add(int n = 1)
 	{
 		hp += n;
 		hp = hp > 3 ? 3 : hp;
+		meter.fillAmount = hp / 3f;
 	}
 
 	public void lose(int n = 1)
 	{
 		hp -= n;
+		meter.fillAmount = hp / 3f;
 		if (hp == 0)
 		{
-			menu.pause();
-			menu.pauseButton.SetActive(false);
+			Invoke("gameover", 1f);			
 		}
 	}
-	public int get()
+
+	private void gameover()
 	{
-		return hp;
+		menu.pause();
+		menu.pauseButton.SetActive(false);
 	}
 }

@@ -7,13 +7,15 @@ using System.Text;
 public class newblee : MonoBehaviour
 {
 
+	public static bool BTStatus = false;
+
     // ----------------------------------------------------------------- 
     // change these to match the bluetooth device you're connecting to:
     // ----------------------------------------------------------------- 
     // private string _FullUID = "713d****-503e-4c75-ba94-3148f18d941e"; // redbear module pattern 
-    private string _FullUID = "6e40****-b5a3-f393-e0a9-e50e24dcca9e";     // BLE-CC41a module pattern 
-    private string _serviceUUID = "0001";
-    private string _readCharacteristicUUID = "0003";//RX
+    public static string _FullUID = "6e40****-b5a3-f393-e0a9-e50e24dcca9e";     // BLE-CC41a module pattern 
+    public static string _serviceUUID = "0001";
+    public static string _readCharacteristicUUID = "0003";//RX
     private string _writeCharacteristicUUID = "0002";//TX
    // private string deviceToConnectTo = "E8:43:0B:9B:37:96";//藍芽位置 1號
     private string deviceToConnectTo = "FE:F8:9E:29:F9:C1";//藍芽位置 2號
@@ -21,15 +23,16 @@ public class newblee : MonoBehaviour
     public bool isConnected = false;
     private bool _readFound = false;
     private bool _writeFound = false;
-    private string _connectedID = null;
+    public static string _connectedID = null;
 
     private Dictionary<string, string> _peripheralList;
     private float _subscribingTimeout = 0f;
 
-    public Text txtDebug; //
+    public Text txtDebug;
    // public GameObject uiPanel;
     //public Text txtSend;
-    public Text txtReceive;
+
+    //public Text txtReceive;
 
     // public TextMesh tett;
 
@@ -37,12 +40,21 @@ public class newblee : MonoBehaviour
     //  public Button btnSend;
 
 
+	void Awake()		//防止重複啟動
+	{
+		if (BTStatus)
+			gameObject.SetActive(false);
+	}
+
     // Use this for initialization 
     void Start()
     {
-        //btnSend.onClick.AddListener(sendData);
-        //  uiPanel.SetActive(false);
-        txtDebug.text += "\nInitialising bluetooth \n";
+		//btnSend.onClick.AddListener(sendData);
+		//  uiPanel.SetActive(false);
+
+		//DontDestroyOnLoad(gameObject);
+
+        txtDebug.text += "Initialising bluetooth\n";
         BluetoothLEHardwareInterface.Initialize(true, false, () => { },
                                       (error) => { }
         );
@@ -53,7 +65,7 @@ public class newblee : MonoBehaviour
     // Update is called once per frame 
     void Update()
     {
-        if (_readFound && _writeFound)
+		if (_readFound && _writeFound)
         {
             _readFound = false;
             _writeFound = false;
@@ -76,21 +88,25 @@ public class newblee : MonoBehaviour
                        BluetoothLEHardwareInterface.Log("id: " + _connectedID);
                        if (deviceAddress2.CompareTo(_connectedID) == 0)
                        {
-						   
+
+						   BTStatus = true;
+
 						   BluetoothLEHardwareInterface.Log(string.Format("data length: {0}", data.Length));
                            if (data.Length == 0)
                            {
-                               txtDebug.text += "readnothing";
-                               // do nothing 
+                               //txtDebug.text += "readnothing";
+                               // do nothing
                            }
                            else
                            {
                                string s = ASCIIEncoding.UTF8.GetString(data); ///Byte to string
                                BluetoothLEHardwareInterface.Log("data: " + s);
                                receiveText(s);
-                               txtDebug.text += "reading";
-
+                               //txtDebug.text += "reading";
+							 
 							   //關閉顯示，如要看參數需打開
+							   //txtDebug.gameObject.SetActive(false);
+							   //txtReceive.gameObject.SetActive(false);
                                //txtDebug.GetComponent<MeshRenderer>().enabled =  false;
                                //txtReceive.GetComponent<MeshRenderer>().enabled = false;
                            }
@@ -103,9 +119,9 @@ public class newblee : MonoBehaviour
 
     void receiveText(string s)
     {
-        txtDebug.text = "Received: " + s + " \n";
-        txtReceive.text = s;
-        rotation_data = s;
+        //txtDebug.text = "Received: " + s + " \n";
+        //txtReceive.text = s;
+        //rotation_data = s;
 
 		//-------------------------------
 		Control.analysis(s);
@@ -221,6 +237,8 @@ public class newblee : MonoBehaviour
 
     }
 
+
+
     /*
     void sendData()
     {
@@ -228,10 +246,13 @@ public class newblee : MonoBehaviour
         sendDataBluetooth(s);
     }*/
 
+
+
+
     // ------------------------------------------------------- 
     // some helper functions for handling connection strings 
     // ------------------------------------------------------- 
-    string FullUUID(string uuid)
+    public static string FullUUID(string uuid)
     {
         return _FullUID.Replace("****", uuid);
     }

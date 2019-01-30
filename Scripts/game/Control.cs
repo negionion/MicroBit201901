@@ -14,12 +14,11 @@ public class Control : MonoBehaviour {
 	public Text txtData;
 	static private string txtDebug;
 	
-	
-
-	
 	// Use this for initialization
 	void Start () {
-
+		controler.Set(0,0,0);
+		buttonA = false;
+		buttonB = false;
 	}
 	
 	// Update is called once per frame
@@ -38,18 +37,16 @@ public class Control : MonoBehaviour {
 		{
 			int interval;
 			int xStart, yStart;
-
-			
-			xStart = data.IndexOf("X") + 2;	//X 123
-			yStart = data.IndexOf("Y") + 2; //Y 456
-			interval = data.IndexOf(",") - xStart;   //X 123, Y 456
+			xStart = data.IndexOf("X") + 1;	//X123
+			yStart = data.IndexOf("Y") + 1; //Y456
+			interval = data.IndexOf(",") - xStart;   //X123,Y456
 			txtDebug = "X : " + data.Substring(xStart, interval) + "\n";
 			txtDebug += "Y : " + data.Substring(yStart) + "\n";
 			controler.x = int.Parse(data.Substring(xStart, interval));
 			controler.y = int.Parse(data.Substring(yStart));
 			//controler = -controler;	//與Micro Bit的轉向相反
 		}
-		if(data.Contains("bA"))
+		if(data.Contains("A"))
 		{
 			buttonA = true;
 			txtDebug += "bA touch\n";
@@ -57,7 +54,7 @@ public class Control : MonoBehaviour {
 		else
 			buttonA = false;
 
-		if(data.Contains("bB"))
+		if(data.Contains("B"))
 		{
 			buttonB = true;
 			txtDebug += "bB touch\n";

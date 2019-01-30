@@ -23,12 +23,12 @@ public class Block : MonoBehaviour {
 			fighter.tag = "attack";
 			block.SetActive(true);
 		}
-		else
+		else if(block.activeSelf)
 		{
 			fighter.tag = "normal";
 			block.SetActive(false);
 		}
-		meter.fillAmount = ((float)nowValue / total);
+		
 	}
 
 	//每秒50次
@@ -43,5 +43,6 @@ public class Block : MonoBehaviour {
 			nowValue += 2;
 		}
 		nowValue = Mathf.Clamp(nowValue, 0, 1000);
+		meter.fillAmount = ((float)nowValue / total);
 	}
 }

@@ -25,7 +25,7 @@ public class Fire : MonoBehaviour {
 	void Update () {
 		timing += Time.deltaTime;
 		fire();
-		meter.fillAmount = (float)nowValue / total;		
+			
 	}
 	void fire()
 	{
@@ -35,14 +35,18 @@ public class Fire : MonoBehaviour {
 		bulletPool.reuse(gunL.position);
 		bulletPool.reuse(gunR.position);
 		nowValue -= 50;
+		nowValue = Mathf.Clamp(nowValue, 0, 1000);
+		meter.fillAmount = (float)nowValue / total;
 	}
 
 	void FixedUpdate()
 	{
 		if (!Control.attack())
 		{
-			nowValue += 10;			
+			nowValue += 10;
+			nowValue = Mathf.Clamp(nowValue, 0, 1000);
+			meter.fillAmount = (float)nowValue / total;
 		}
-		nowValue = Mathf.Clamp(nowValue, 0, 1000);
+		
 	}
 }

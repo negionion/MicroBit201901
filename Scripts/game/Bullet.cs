@@ -9,7 +9,7 @@ public class Bullet : MonoBehaviour {
 	void OnEnable()
 	{
 		iniPos = transform.position;
-
+		transform.rotation = GameObject.Find("character").GetComponent<Transform>().rotation;
 	}
 
 

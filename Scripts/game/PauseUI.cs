@@ -37,11 +37,13 @@ public class PauseUI : MonoBehaviour {
 
 	public void quit()
 	{
+		Time.timeScale = 1;
 		SceneManager.LoadScene("home");
 	}
 
 	public void again()
 	{
+		Time.timeScale = 1;
 		SceneManager.LoadSceneAsync("loading");
 	}
 }

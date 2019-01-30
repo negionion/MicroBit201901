@@ -12,7 +12,8 @@ public class EnemyCreat : MonoBehaviour {
 	private ObjPool meteoritePool2;
 	public int meteoriteQuantity = 20;
 	static public int meteoriteCount = 0;
-	public float meteoriteTimer = 0.3f;
+	public float meteoriteRate = 0.5f;
+	private float meteoriteTimer = 0f;
 
 	[SerializeField]
 	private ObjPool enemyFighterPool1;
@@ -20,14 +21,16 @@ public class EnemyCreat : MonoBehaviour {
 	private ObjPool enemyFighterPool2;
 	public int enemyFighterQuantity = 10;
 	static public int enemyFighterCount = 0;	
-	public float enemyFighterTimer = 0.7f;
+	public float enemyFighterRate = 1f;
+	private float enemyFighterTimer = 0f;
 
 	private float metTimeing = 0;
 	private float enfTimeing = 0;
 
 	// Use this for initialization
 	void Start () {
-
+		meteoriteCount = 0;
+		enemyFighterCount = 0;
 	}
 	
 	// Update is called once per frame
@@ -37,6 +40,7 @@ public class EnemyCreat : MonoBehaviour {
 		if (metTimeing >= meteoriteTimer && meteoriteCount < meteoriteQuantity)
 		{
 			metTimeing = 0;
+			meteoriteTimer = Random.Range(meteoriteRate - 0.5f, meteoriteRate);
 			Vector3 pos = new Vector3(
 				Random.Range(-15, 15),
 				Random.Range(-8, 12),
@@ -55,12 +59,13 @@ public class EnemyCreat : MonoBehaviour {
 		if (enfTimeing >= enemyFighterTimer && enemyFighterCount < enemyFighterQuantity)
 		{
 			enfTimeing = 0;
+			enemyFighterTimer = Random.Range(enemyFighterRate - 1f, enemyFighterRate);
 			Vector3 pos = new Vector3(
 				Random.Range(-7, 7),
 				Random.Range(-1, 7),
 				Random.Range(character.position.z + 60, character.position.z + 80));
 			enemyFighterCount++;
-			if (Random.Range(0f, 1f) < 0.5f)
+			if (Random.Range(0f, 1f) < 0.3f)
 			{
 				enemyFighterPool1.reuse(pos);
 			}
